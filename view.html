@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        tr,td,th {
+            border: 2px solid black;
+            text-align: center;
+        }
+        ::-webkit-scrollbar{
+            width: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center py-3"><span class="bg-info px-3 py-2 rounded-3 d-inline-block">View Product</span></h1>
+        <div class="row overflow-x-scroll">
+            <div class="col-12">
+                <table  width="1750px" cellpadding="10">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th width="200px">title</th>
+                            <th width="300px">Discription</th>
+                            <th>Tags</th>
+                            <th width="100px">Price</th>
+                            <th>Weight(kg/gm)</th>
+                            <th>Reviews</th>
+                            <th>Comment</th>
+                            <th>returnPolicy</th>
+                            <th>Barcode</th>
+                            <th>QrCode</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-table-body">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h5 class="text-center"><a href="index.html" class="text-decoration-none bg-info px-3 py-2 rounded-3">Go To Home</a></h5>
+    </div>
+    <script>
+        const productId = new URLSearchParams(window.location.search).get('id');
+        const storage = JSON.parse(localStorage.getItem("SelectProduct")) || [];
+        const product = storage.find(item => item.id === Number(productId));
+
+        document.getElementById('cart-table-body').innerHTML = product ? 
+          `<tr>
+              <td valign = "middle"><img src="${product.images[0]}" class="img-fluid"></td>
+              <td valign = "middle">${product.title}</td>
+              <td valign = "middle">${product.description}</td>
+              <td valign = "middle">${product.tags}</td>
+              <td valign = "middle">₹ ${product.price.toLocaleString()}</td>
+              <td valign = "middle">${product.weight}</td>
+              <td valign = "middle">${product.reviews[0].rating}</td>
+              <td valign = "middle">${product.reviews[0].comment}</td>
+              <td valign = "middle">${product.returnPolicy}</td>
+              <td valign = "middle">${product.meta.barcode}</td>
+              <td valign = "middle"><img src="${product.meta.qrCode}" ></td>
+          </tr>` : `<p>${productId ? 'Product not found.' : 'No product selected.'}</p>`;
+    </script>
+</body>
+
+</html>
