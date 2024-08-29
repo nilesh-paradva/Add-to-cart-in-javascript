@@ -50,10 +50,12 @@
         <h5 class="text-center"><a href="index.html" class="text-decoration-none bg-info px-3 py-2 rounded-3">Go To Home</a></h5>
     </div>
     <script>
-        const productId = new URLSearchParams(window.location.search).get('id');
-        const storage = JSON.parse(localStorage.getItem("SelectProduct")) || [];
-        const product = storage.find(item => item.id === Number(productId));
-
+        const productId = new URLSearchParams(window.location.search).get('id'); //view button click get id is string formate (URLSearchParams id string to object convert)
+        console.log("data id",productId);
+        const storage = JSON.parse(localStorage.getItem("SelectProduct")) || []; //get data for Localstorage SelectProduct(key) => string to array covert
+        const product = storage.find(item => item.id === Number(productId)); // same id get storage (Number => url id is string convert number "1" to 1)
+        console.log("product",product);
+        
         document.getElementById('cart-table-body').innerHTML = product ? 
           `<tr>
               <td valign = "middle"><img src="${product.images[0]}" class="img-fluid"></td>
