@@ -1,5 +1,4 @@
 let viewData = document.getElementById("view-data");
-// let priceTotal = document.getElementById("total-price");
 let productData = [
 
     {
@@ -3596,10 +3595,10 @@ let productData = [
 
 ]
 
-productData.forEach((element) => {
+productData.forEach((element) => {  //productData array loop for data print HTML page
     viewData.innerHTML += `<tr>
                             <td>${element.id}</td>
-                            <td>${element.title}</td>
+                            <td>${element.title}</td>          
                             <td>${element.description}</td>
                             <td>${element.price}</td>
                             <td><img src="${element.images[0]}" width="250px"/>
@@ -3610,23 +3609,25 @@ productData.forEach((element) => {
                         </tr>`;
 });
 
-const addToCart = (id) => {
-    const item = productData.find(item => item.id === id);
-    if (item) {
-        const storage = JSON.parse(localStorage.getItem('SelectProduct')) || [];
-        const itemIndex = storage.findIndex(cartItem => cartItem.id === id);
-        
-        itemIndex === -1 ? storage.push({...item, quintity: 1}) : storage[itemIndex].quintity++;
-        localStorage.setItem('SelectProduct', JSON.stringify(storage));
+const addToCart = (id) => { //Add to cart btn click add item in cart data show
+    const item = productData.find(item => item.id === id); //id checked same id item variable store data
+    console.log("item",item);
+    if (item) { //item checked id (id true)
+        const storage = JSON.parse(localStorage.getItem('SelectProduct')) || []; //SelectProduct cart data get with id (JSON.parse string convert Array) & data asign to storage variable
+        const itemIndex = storage.findIndex(cartItem => cartItem.id === id); // item first click (id - 1 => findIndex-1) & (same item second click id - 1 => findIndex-0)
+        console.log("itemIndex",itemIndex);
+
+        itemIndex === -1 ? storage.push({...item, quintity: 1}) : storage[itemIndex].quintity++; //itemIndex (item is not in the cart add item 1 quntity) or (item in the cart add item 1 quntity++ => addto cart button click quntity 1,2,3,4);
+        localStorage.setItem('SelectProduct', JSON.stringify(storage)); //local storage update from array to string convert
         displayCart();
     }
 };
 
 const displayCart = () => {
-    const selectData = document.getElementById('cart-select-data');
-    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || [];
-    selectData.innerHTML = storage.map(item => `
-        <tr>
+    const selectData = document.getElementById('cart-select-data'); //cart data select
+    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || []; //SelectProduct (JSON.parse string convert Array) & data asign to storage variable 
+    selectData.innerHTML = storage.map(item =>  //SelectProduct data print in cart box item.keyname data print 
+        `<tr>
             <td><img src="${item.images[0]}" width="250px"></td>
             <td>${item.price}</td>
             <td>
@@ -3643,31 +3644,32 @@ const displayCart = () => {
 };
 
 const changeQuntity = (id, change) => {
-    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || [];
-    const itemIndex = storage.findIndex(item => item.id === id);
-    if (itemIndex !== -1) {
-        storage[itemIndex].quintity = Math.max(1, storage[itemIndex].quintity + change);
-        localStorage.setItem("SelectProduct", JSON.stringify(storage));
+    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || []; //SelectProduct (JSON.parse string convert Array) & data asign to storage variable 
+    const itemIndex = storage.findIndex(item => item.id === id); // item first click (id - 1 => findIndex - 0) & (same item second click id - 1 => findIndex-0)
+    console.log("itemIndex2",itemIndex);
+    if (itemIndex !== -1) { //itemIndex checking true or false
+        storage[itemIndex].quintity = Math.max(1, storage[itemIndex].quintity + change); //Math.max(1, => quntity not minus & quntity minus set 1)
+        localStorage.setItem("SelectProduct", JSON.stringify(storage)); //update data localstorage store
         displayCart();
         updateTotalPrice();
     }
 };
 
 const updateTotalPrice = () => {
-    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || [];
-    const totalPrice = storage.reduce((total, item) => total + (item.price * item.quintity), 0);
-    document.getElementById("total-price").innerHTML = `Total Price :- ₹ ${totalPrice.toFixed(2)}`;
+    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || []; //SelectProduct (JSON.parse string convert Array) & data asign to storage variable
+    const totalPrice = storage.reduce((total, item) => total + (item.price * item.quintity), 0); //id - 1 => item.price position (0 - total) + (item.price(2) * item.quntity(1)) = 2 
+    document.getElementById("total-price").innerHTML = `Total Price :- ₹ ${totalPrice.toFixed(2)}`; // toFixed(2) => 18.2345 => 18.23
 };
 
 const deleteFromCart = (id) => {
-    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || [];
-    localStorage.setItem("SelectProduct", JSON.stringify(storage.filter(item => item.id !== id)));
+    const storage = JSON.parse(localStorage.getItem('SelectProduct')) || []; //SelectProduct (JSON.parse string convert Array) & data asign to storage variable
+    localStorage.setItem("SelectProduct", JSON.stringify(storage.filter(item => item.id !== id))); // id not match array in store => id match delete data from array
     displayCart();
     selectCount();
 };
 
 const selectCount = () => {
-    let totalCount = (JSON.parse(localStorage.getItem('SelectProduct')) || []) .reduce((count, item) => count + item.quintity, 0); // Sum up quantities
+    let totalCount = (JSON.parse(localStorage.getItem('SelectProduct')) || []) .reduce((count, item) => count + item.quintity, 0); 
     const countDisplay = document.getElementById('count');
     countDisplay ? countDisplay.textContent = totalCount : console.log("error");
 }
