@@ -14,8 +14,8 @@
             border: 2px solid black;
             text-align: center;
         }
-        ::-webkit-scrollbar{
-            width: 0px;
+        table{
+            cursor: move;
         }
     </style>
 </head>
@@ -47,7 +47,7 @@
                 </table>
             </div>
         </div>
-        <h5 class="text-center"><a href="index.html" class="text-decoration-none bg-info px-3 py-2 rounded-3">Go To Home</a></h5>
+        <h5 class="text-center mt-5"><a href="index.html" class="text-decoration-none bg-info px-3 py-2 rounded-3">Go To Home</a></h5>
     </div>
     <script>
         const productId = new URLSearchParams(window.location.search).get('id'); //view button click get id is string formate (URLSearchParams id string to object convert)
