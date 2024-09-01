@@ -3601,6 +3601,7 @@ productData.forEach((element) => {  //productData array loop for data print HTML
                             <td>${element.title}</td>          
                             <td>${element.description}</td>
                             <td>${element.price}</td>
+                            <td>${element.discountPercentage}%</td>
                             <td><img src="${element.images[0]}" width="250px"/>
                                 <div>
                                     <a href="javascript:void(0);" class="btn btn-dark d-block mb-auto" onclick="addToCart(${element.id})">Add to Cart</a>
@@ -3630,6 +3631,7 @@ const displayCart = () => {
         `<tr>
             <td><img src="${item.images[0]}" width="250px"></td>
             <td>${item.price}</td>
+            <td width="200px">${item.discountPercentage}%</td>
             <td>
                 <button class="btn btn-secondary btn-sm" onclick="changeQuntity(${item.id}, -1)">-</button>
                 <span>${item.quintity}</span>
@@ -3657,7 +3659,7 @@ const changeQuntity = (id, change) => {
 
 const updateTotalPrice = () => {
     const storage = JSON.parse(localStorage.getItem('SelectProduct')) || []; //SelectProduct (JSON.parse string convert Array) & data asign to storage variable
-    const totalPrice = storage.reduce((total, item) => total + (item.price * item.quintity), 0); //id - 1 => item.price position (0 - total) + (item.price(2) * item.quntity(1)) = 2 
+    const totalPrice = storage.reduce((total, item) => total + (item.price * item.quintity - ((item.price * item.quintity * item.discountPercentage / 100))), 0); //id - 1 => item.price position (0 - total) + (item.price(2) * item.quntity(1)) = 2 
     document.getElementById("total-price").innerHTML = `Total Price :- ₹ ${totalPrice.toFixed(2)}`; // toFixed(2) => 18.2345 => 18.23
 };
 

@@ -25,7 +25,7 @@
         <h1 class="text-center py-3"><span class="bg-info px-3 py-2 rounded-3 d-inline-block">View Product</span></h1>
         <div class="row overflow-x-scroll">
             <div class="col-12">
-                <table  width="1750px" cellpadding="10">
+                <table  width="1900px" cellpadding="10">
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -33,6 +33,7 @@
                             <th width="300px">Discription</th>
                             <th>Tags</th>
                             <th width="100px">Price</th>
+                            <th>DiscountPercentage</th>
                             <th>Weight(kg/gm)</th>
                             <th>Reviews</th>
                             <th>Comment</th>
@@ -62,7 +63,8 @@
               <td valign = "middle">${product.title}</td>
               <td valign = "middle">${product.description}</td>
               <td valign = "middle">${product.tags}</td>
-              <td valign = "middle">₹ ${product.price.toLocaleString()}</td>
+              <td valign = "middle">₹ ${product.price}</td>
+              <td valign = "middle">₹ ${product.discountPercentage}%</td>
               <td valign = "middle">${product.weight}</td>
               <td valign = "middle">${product.reviews[0].rating}</td>
               <td valign = "middle">${product.reviews[0].comment}</td>
